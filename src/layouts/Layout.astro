@@ -1,0 +1,42 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import { Navbar } from '../components/Navbar';
+
+interface Props {
+  title?: string;
+}
+
+const {
+  title = 'CobraDiario - Panel de Control',
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style is:global>
+      .leaflet-popup-content-wrapper { border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.12); }
+      .leaflet-popup-content { margin: 12px 14px; }
+      .loan-marker-paid   { background:#22c55e; border:2px solid #fff; border-radius:50%; box-shadow:0 2px 6px rgba(0,0,0,.25); }
+      .loan-marker-overdue{ background:#ef4444; border:2px solid #fff; border-radius:50%; box-shadow:0 2px 6px rgba(0,0,0,.25); }
+      .loan-marker-active { background:#3b82f6; border:2px solid #fff; border-radius:50%; box-shadow:0 2px 6px rgba(0,0,0,.25); }
+    </style>
+    <ClientRouter />
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <Navbar client:load currentPath={currentPath} />
+    <slot />
+  </body>
+</html>
